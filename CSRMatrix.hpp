@@ -167,21 +167,23 @@ public:
         // Find the position in the row i
         size_t start = indptr[i];
         size_t end = indptr[i + 1];
-        size_t pos = start;
         
-        // Search for the column index
-        while (pos < end && indices[pos] < j) {
-            ++pos;
+        // Binary search for the column index since indices are sorted
+        size_t pos = start;
+        size_t left = start, right = end;
+        while (left < right) {
+            size_t mid = left + (right - left) / 2;
+            if (indices[mid] < j) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
         }
+        pos = left;
         
         if (pos < end && indices[pos] == j) {
             // Element exists, update it
-            if (value == T{}) {
-                // If setting to zero, we would need to remove it, but per problem statement we don't need to delete
-                data[pos] = value;
-            } else {
-                data[pos] = value;
-            }
+            data[pos] = value;
         } else {
             // Element doesn't exist, insert it
             if (value != T{}) {
