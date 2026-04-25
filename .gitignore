@@ -1,0 +1,11 @@
+
+
+CMakeFiles/
+CMakeCache.txt
+code
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+
